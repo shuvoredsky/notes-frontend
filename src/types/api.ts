@@ -14,7 +14,7 @@ export interface ApiResponse<T> {
 export interface PaginatedApiResponse<T> {
   success: boolean;
   message?: string;
-  data: T[];
+  data: T extends Array<unknown> ? T : T extends UserPostsData ? T : T[];
   meta: PaginationMeta;
 }
 

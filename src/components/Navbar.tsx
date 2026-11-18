@@ -15,20 +15,36 @@ export default function Navbar() {
             Notes App
           </Link>
           {user && (
-            <Link
-              href="/notes"
-              className="text-sm font-medium text-gray-700 hover:text-gray-900"
-            >
-              Notes
-            </Link>
+            <>
+              <Link
+                href="/notes"
+                className="text-sm font-medium text-gray-700 hover:text-gray-900"
+              >
+                Notes
+              </Link>
+              <Link
+                href={`/users/${user._id}/posts`}
+                className="text-sm font-medium text-gray-700 hover:text-gray-900"
+              >
+                My Posts
+              </Link>
+            </>
           )}
           {user?.role === 'admin' && (
-            <Link
-              href="/admin/users"
-              className="text-sm font-medium text-gray-700 hover:text-gray-900"
-            >
-              Users
-            </Link>
+            <>
+              <Link
+                href="/admin/users"
+                className="text-sm font-medium text-gray-700 hover:text-gray-900"
+              >
+                Users
+              </Link>
+              <Link
+                href="/admin/interests"
+                className="text-sm font-medium text-gray-700 hover:text-gray-900"
+              >
+                Interests
+              </Link>
+            </>
           )}
         </div>
 
