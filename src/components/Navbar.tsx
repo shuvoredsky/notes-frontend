@@ -22,6 +22,14 @@ export default function Navbar() {
               Notes
             </Link>
           )}
+          {user?.role === 'admin' && (
+            <Link
+              href="/admin/users"
+              className="text-sm font-medium text-gray-700 hover:text-gray-900"
+            >
+              Users
+            </Link>
+          )}
         </div>
 
         <div className="flex items-center space-x-4">
