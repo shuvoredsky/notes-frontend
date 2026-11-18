@@ -1,8 +1,26 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+
 export default function HomePage() {
+  const { user, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loading) return;
+
+    if (user) {
+      router.replace('/notes');
+    } else {
+      router.replace('/login');
+    }
+  }, [user, loading, router]);
+
   return (
-    <main className="p-8">
-      <h1 className="text-2xl font-bold">Notes App</h1>
-      <p className="mt-2 text-gray-600">Secure Note-Taking Application</p>
-    </main>
+    <div className="flex justify-center items-center min-h-[50vh]">
+      <p className="text-gray-500">Loading...</p>
+    </div>
   );
 }
