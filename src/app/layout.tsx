@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { AuthProvider } from '@/context/AuthContext';
+import { ToastProvider } from '@/context/ToastContext';
 import Navbar from '@/components/Navbar';
 
 export const metadata: Metadata = {
@@ -31,12 +32,14 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 transition-colors">
-        <AuthProvider>
-          <Navbar />
-          <main className="max-w-5xl mx-auto px-4 py-6">
-            {children}
-          </main>
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <Navbar />
+            <main className="max-w-5xl mx-auto px-4 py-6">
+              {children}
+            </main>
+          </AuthProvider>
+        </ToastProvider>
       </body>
     </html>
   );

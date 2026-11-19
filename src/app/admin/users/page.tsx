@@ -6,6 +6,7 @@ import { z } from 'zod';
 import AuthGuard from '@/components/AuthGuard';
 import Pagination from '@/components/Pagination';
 import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import { api, ApiError, buildQuery } from '@/lib/api';
 import { PaginatedApiResponse, PaginationMeta, User } from '@/types/api';
 
@@ -29,6 +30,7 @@ interface EditFormState {
 
 export default function AdminUsersPage() {
   const { user: currentUser } = useAuth();
+  const { success: toastSuccess, error: toastError } = useToast();
 
   const [users, setUsers] = useState<User[]>([]);
   const [meta, setMeta] = useState<PaginationMeta | null>(null);
@@ -38,8 +40,6 @@ export default function AdminUsersPage() {
 
   // Action status (create, update, delete)
   const [actionLoading, setActionLoading] = useState(false);
-  const [actionError, setActionError] = useState<string | null>(null);
-  const [actionSuccess, setActionSuccess] = useState<string | null>(null);
 
   // Create user form state
   const [createForm, setCreateForm] = useState({
@@ -89,8 +89,6 @@ export default function AdminUsersPage() {
   // Create user handler
   const handleCreateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setActionError(null);
-    setActionSuccess(null);
     setCreateErrors({});
 
     const result = createUserSchema.safeParse(createForm);
@@ -103,6 +101,7 @@ export default function AdminUsersPage() {
         }
       }
       setCreateErrors(fieldErrors);
+      toastError('Please fix the form errors');
       return;
     }
 
@@ -130,7 +129,7 @@ export default function AdminUsersPage() {
         role: 'user',
         interests: '',
       });
-      setActionSuccess('User created successfully');
+      toastSuccess('User created');
 
       if (page !== 1) {
         setPage(1);
@@ -139,9 +138,9 @@ export default function AdminUsersPage() {
       }
     } catch (err) {
       if (err instanceof ApiError) {
-        setActionError(err.message);
+        toastError(err.message);
       } else {
-        setActionError('Failed to create user');
+        toastError('Failed to create user');
       }
     } finally {
       setActionLoading(false);
@@ -159,8 +158,6 @@ export default function AdminUsersPage() {
       password: '',
     });
     setEditErrors({});
-    setActionError(null);
-    setActionSuccess(null);
   };
 
   const cancelEditing = () => {
@@ -177,8 +174,6 @@ export default function AdminUsersPage() {
 
   // Save inline edit
   const handleSaveEdit = async (u: User) => {
-    setActionError(null);
-    setActionSuccess(null);
     setEditErrors({});
 
     const errors: Record<string, string> = {};
@@ -195,6 +190,7 @@ export default function AdminUsersPage() {
 
     if (Object.keys(errors).length > 0) {
       setEditErrors(errors);
+      toastError('Please fix the form errors');
       return;
     }
 
@@ -243,13 +239,13 @@ export default function AdminUsersPage() {
     try {
       await api.put(`/users/${u._id}`, payload);
       setEditingUserId(null);
-      setActionSuccess('User updated successfully');
+      toastSuccess('User updated');
       await fetchUsers();
     } catch (err) {
       if (err instanceof ApiError) {
-        setActionError(err.message);
+        toastError(err.message);
       } else {
-        setActionError('Failed to update user');
+        toastError('Failed to update user');
       }
     } finally {
       setActionLoading(false);
@@ -258,9 +254,6 @@ export default function AdminUsersPage() {
 
   // Delete user
   const handleDeleteUser = async (u: User) => {
-    setActionError(null);
-    setActionSuccess(null);
-
     const confirmed = window.confirm(
       `Are you sure you want to delete "${u.name}"? This user's notes and posts will also be deleted.`
     );
@@ -271,7 +264,7 @@ export default function AdminUsersPage() {
     setActionLoading(true);
     try {
       await api.delete(`/users/${u._id}`);
-      setActionSuccess('User deleted successfully');
+      toastSuccess('User deleted');
 
       // If the last item on a page > 1 was deleted, navigate to previous page
       if (users.length === 1 && page > 1) {
@@ -281,9 +274,9 @@ export default function AdminUsersPage() {
       }
     } catch (err) {
       if (err instanceof ApiError) {
-        setActionError(err.message);
+        toastError(err.message);
       } else {
-        setActionError('Failed to delete user');
+        toastError('Failed to delete user');
       }
     } finally {
       setActionLoading(false);
@@ -301,33 +294,6 @@ export default function AdminUsersPage() {
             </p>
           </div>
         </div>
-
-        {/* Global Action Alerts */}
-        {actionError && (
-          <div className="p-4 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-sm text-red-700 dark:text-red-300 flex items-start justify-between">
-            <span>{actionError}</span>
-            <button
-              type="button"
-              onClick={() => setActionError(null)}
-              className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-200 font-bold ml-4 cursor-pointer"
-            >
-              ✕
-            </button>
-          </div>
-        )}
-
-        {actionSuccess && (
-          <div className="p-4 rounded bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 text-sm text-green-700 dark:text-green-300 flex items-start justify-between">
-            <span>{actionSuccess}</span>
-            <button
-              type="button"
-              onClick={() => setActionSuccess(null)}
-              className="text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-200 font-bold ml-4 cursor-pointer"
-            >
-              ✕
-            </button>
-          </div>
-        )}
 
         {/* Create User Form */}
         <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-5 sm:p-6 shadow-xs">

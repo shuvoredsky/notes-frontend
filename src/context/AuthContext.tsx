@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { User, AuthData, ApiResponse } from '@/types/api';
 import { api, getToken, setToken, clearToken } from '@/lib/api';
+import { useToast } from '@/context/ToastContext';
 
 interface AuthContextType {
   user: User | null;
@@ -19,6 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
+  const { success: toastSuccess } = useToast();
 
   useEffect(() => {
     async function loadUser() {
@@ -58,6 +60,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     clearToken();
     setUser(null);
     router.push('/login');
+    toastSuccess('Logged out');
   };
 
   return (

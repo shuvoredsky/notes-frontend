@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import AuthGuard from '@/components/AuthGuard';
 import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import { ApiError } from '@/lib/api';
 
 const loginSchema = z.object({
@@ -20,6 +21,7 @@ type LoginFormErrors = {
 
 export default function LoginPage() {
   const { login } = useAuth();
+  const { success: toastSuccess, error: toastError } = useToast();
   const router = useRouter();
 
   const [email, setEmail] = useState('');
@@ -43,19 +45,19 @@ export default function LoginPage() {
         }
       }
       setErrors(fieldErrors);
+      toastError('Please fix the form errors');
       return;
     }
 
     setIsSubmitting(true);
     try {
       await login(email, password);
+      toastSuccess('Logged in successfully');
       router.push('/notes');
     } catch (err) {
-      if (err instanceof ApiError) {
-        setServerError(err.message);
-      } else {
-        setServerError('An unexpected error occurred. Please try again.');
-      }
+      const message = err instanceof ApiError ? err.message : 'An unexpected error occurred. Please try again.';
+      setServerError(message);
+      toastError(message);
     } finally {
       setIsSubmitting(false);
     }

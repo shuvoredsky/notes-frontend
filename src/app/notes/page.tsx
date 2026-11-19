@@ -5,6 +5,7 @@ import { z } from 'zod';
 import AuthGuard from '@/components/AuthGuard';
 import Pagination from '@/components/Pagination';
 import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import { Note, PaginationMeta, PaginatedApiResponse, ApiResponse } from '@/types/api';
 import { api, buildQuery, ApiError } from '@/lib/api';
 
@@ -23,6 +24,7 @@ function formatOwner(owner: Note['owner']): string {
 
 export default function NotesPage() {
   const { user } = useAuth();
+  const { success: toastSuccess, error: toastError } = useToast();
 
   const [notes, setNotes] = useState<Note[]>([]);
   const [meta, setMeta] = useState<PaginationMeta | null>(null);
@@ -111,6 +113,7 @@ export default function NotesPage() {
         fieldErrors[field] = issue.message;
       }
       setCreateErrors(fieldErrors);
+      toastError('Please fix the form errors');
       return;
     }
 
@@ -120,6 +123,7 @@ export default function NotesPage() {
         title: createTitle.trim(),
         content: createContent.trim(),
       });
+      toastSuccess('Note created');
       setCreateTitle('');
       setCreateContent('');
       if (page === 1) {
@@ -128,11 +132,9 @@ export default function NotesPage() {
         setPage(1);
       }
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message);
-      } else {
-        setError('Failed to create note.');
-      }
+      const msg = err instanceof ApiError ? err.message : 'Failed to create note.';
+      setError(msg);
+      toastError(msg);
     } finally {
       setIsCreating(false);
     }
@@ -168,6 +170,7 @@ export default function NotesPage() {
         fieldErrors[field] = issue.message;
       }
       setEditErrors(fieldErrors);
+      toastError('Please fix the form errors');
       return;
     }
 
@@ -177,14 +180,13 @@ export default function NotesPage() {
         title: editTitle.trim(),
         content: editContent.trim(),
       });
+      toastSuccess('Note updated');
       setEditingId(null);
       fetchNotes(page);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message);
-      } else {
-        setError('Failed to update note.');
-      }
+      const msg = err instanceof ApiError ? err.message : 'Failed to update note.';
+      setError(msg);
+      toastError(msg);
     } finally {
       setIsSaving(false);
     }
@@ -199,17 +201,16 @@ export default function NotesPage() {
 
     try {
       await api.delete(`/notes/${noteId}`);
+      toastSuccess('Note deleted');
       if (notes.length === 1 && page > 1) {
         setPage((p) => p - 1);
       } else {
         fetchNotes(page);
       }
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message);
-      } else {
-        setError('Failed to delete note.');
-      }
+      const msg = err instanceof ApiError ? err.message : 'Failed to delete note.';
+      setError(msg);
+      toastError(msg);
     } finally {
       setIsDeletingId(null);
     }

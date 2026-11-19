@@ -4,12 +4,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import AuthGuard from '@/components/AuthGuard';
 import Pagination from '@/components/Pagination';
+import { useToast } from '@/context/ToastContext';
 import { api, ApiError, buildQuery } from '@/lib/api';
 import { InterestGroup, PaginatedApiResponse, PaginationMeta } from '@/types/api';
 
 const LIMIT = 5;
 
 export default function AdminInterestsPage() {
+  const { error: toastError } = useToast();
   const [groups, setGroups] = useState<InterestGroup[]>([]);
   const [meta, setMeta] = useState<PaginationMeta | null>(null);
   const [page, setPage] = useState(1);
@@ -34,11 +36,9 @@ export default function AdminInterestsPage() {
       setGroups(res.data);
       setMeta(res.meta);
     } catch (err) {
-      if (err instanceof ApiError) {
-        setError(err.message);
-      } else {
-        setError('Failed to load interests');
-      }
+      const msg = err instanceof ApiError ? err.message : 'Failed to load interests';
+      setError(msg);
+      toastError(msg);
     } finally {
       setLoading(false);
     }

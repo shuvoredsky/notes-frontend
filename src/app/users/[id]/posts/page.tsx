@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { z } from 'zod';
 import Pagination from '@/components/Pagination';
 import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import { api, ApiError, buildQuery } from '@/lib/api';
 import { PaginatedApiResponse, PaginationMeta, Post, UserPostsData, UserSummary } from '@/types/api';
 
@@ -20,6 +21,7 @@ export default function UserPostsPage() {
   const id = Array.isArray(params?.id) ? params.id[0] : (params?.id as string | undefined);
 
   const { user: currentUser, loading: authLoading } = useAuth();
+  const { success: toastSuccess, error: toastError } = useToast();
 
   const [userSummary, setUserSummary] = useState<UserSummary | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -33,7 +35,6 @@ export default function UserPostsPage() {
   const [createContent, setCreateContent] = useState('');
   const [createErrors, setCreateErrors] = useState<{ title?: string; content?: string }>({});
   const [actionLoading, setActionLoading] = useState(false);
-  const [actionError, setActionError] = useState<string | null>(null);
 
   const fetchUserPosts = useCallback(async () => {
     if (!id) {
@@ -71,7 +72,6 @@ export default function UserPostsPage() {
 
   const handleCreatePost = async (e: React.FormEvent) => {
     e.preventDefault();
-    setActionError(null);
     setCreateErrors({});
 
     const result = createPostSchema.safeParse({
@@ -88,6 +88,7 @@ export default function UserPostsPage() {
         }
       }
       setCreateErrors(errors);
+      toastError('Please fix the form errors');
       return;
     }
 
@@ -100,6 +101,7 @@ export default function UserPostsPage() {
 
       setCreateTitle('');
       setCreateContent('');
+      toastSuccess('Post created');
 
       if (page !== 1) {
         setPage(1);
@@ -108,9 +110,9 @@ export default function UserPostsPage() {
       }
     } catch (err) {
       if (err instanceof ApiError) {
-        setActionError(err.message);
+        toastError(err.message);
       } else {
-        setActionError('Failed to create post');
+        toastError('Failed to create post');
       }
     } finally {
       setActionLoading(false);
@@ -118,7 +120,6 @@ export default function UserPostsPage() {
   };
 
   const handleDeletePost = async (postId: string) => {
-    setActionError(null);
     const confirmed = window.confirm('Are you sure you want to delete this post?');
     if (!confirmed) {
       return;
@@ -127,6 +128,7 @@ export default function UserPostsPage() {
     setActionLoading(true);
     try {
       await api.delete(`/posts/${postId}`);
+      toastSuccess('Post deleted');
 
       if (posts.length === 1 && page > 1) {
         setPage((prev) => prev - 1);
@@ -135,9 +137,9 @@ export default function UserPostsPage() {
       }
     } catch (err) {
       if (err instanceof ApiError) {
-        setActionError(err.message);
+        toastError(err.message);
       } else {
-        setActionError('Failed to delete post');
+        toastError('Failed to delete post');
       }
     } finally {
       setActionLoading(false);
@@ -162,20 +164,6 @@ export default function UserPostsPage() {
           </div>
         </div>
       ) : null}
-
-      {/* Action Error Banner */}
-      {actionError && (
-        <div className="p-4 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-sm text-red-700 dark:text-red-300 flex items-start justify-between">
-          <span>{actionError}</span>
-          <button
-            type="button"
-            onClick={() => setActionError(null)}
-            className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-200 font-bold ml-4 cursor-pointer"
-          >
-            ✕
-          </button>
-        </div>
-      )}
 
       {/* Create Post Form (Only shown if logged-in user is viewing their OWN posts page) */}
       {!authLoading && isOwner && (
