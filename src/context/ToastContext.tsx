@@ -86,10 +86,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
             <div
               key={toast.id}
               role={isError ? 'alert' : 'status'}
-              className={`pointer-events-auto animate-toast border-l-4 rounded-r shadow-lg p-3 text-sm flex items-start justify-between gap-3 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 ${
+              className={`pointer-events-auto animate-toast border border-l-4 rounded shadow-lg p-3 text-sm flex items-start justify-between gap-3 ${
                 isError
-                  ? 'border-red-500 bg-red-50/20 dark:bg-red-950/20'
-                  : 'border-green-500 bg-green-50/20 dark:bg-green-950/20'
+                  ? 'bg-red-100 text-red-900 border-red-500 dark:bg-red-900 dark:text-red-50 dark:border-red-500'
+                  : 'bg-green-100 text-green-900 border-green-500 dark:bg-green-900 dark:text-green-50 dark:border-green-500'
               }`}
             >
               <div className="flex items-start gap-2">
