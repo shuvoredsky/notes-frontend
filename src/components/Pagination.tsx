@@ -17,18 +17,18 @@ export default function Pagination({ meta, onPageChange }: PaginationProps) {
   const isNextDisabled = meta.page >= meta.pages;
 
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 px-2 py-4 mt-6">
-      <div className="text-sm text-gray-700">
-        Page <span className="font-medium">{meta.page}</span> of{' '}
-        <span className="font-medium">{meta.pages}</span>{' '}
-        <span className="text-gray-500">({meta.total} total)</span>
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-gray-200 dark:border-gray-800 px-2 py-4 mt-6">
+      <div className="text-sm text-gray-700 dark:text-gray-300 text-center sm:text-left">
+        Page <span className="font-medium text-gray-900 dark:text-gray-100">{meta.page}</span> of{' '}
+        <span className="font-medium text-gray-900 dark:text-gray-100">{meta.pages}</span>{' '}
+        <span className="text-gray-500 dark:text-gray-400">({meta.total} total)</span>
       </div>
       <div className="flex space-x-2">
         <button
           type="button"
           onClick={() => onPageChange(meta.page - 1)}
           disabled={isPrevDisabled}
-          className="px-3 py-1.5 text-sm font-medium border border-gray-300 rounded bg-white hover:bg-gray-50 text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="btn btn-sm"
         >
           Previous
         </button>
@@ -36,7 +36,7 @@ export default function Pagination({ meta, onPageChange }: PaginationProps) {
           type="button"
           onClick={() => onPageChange(meta.page + 1)}
           disabled={isNextDisabled}
-          className="px-3 py-1.5 text-sm font-medium border border-gray-300 rounded bg-white hover:bg-gray-50 text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className="btn btn-sm"
         >
           Next
         </button>
@@ -44,4 +44,3 @@ export default function Pagination({ meta, onPageChange }: PaginationProps) {
     </div>
   );
 }
-

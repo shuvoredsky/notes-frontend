@@ -67,52 +67,54 @@ export default function AdminInterestsPage() {
 
   return (
     <AuthGuard requireAdmin>
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+      <div className="max-w-5xl mx-auto py-4 sm:py-6 space-y-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Users by Interest</h1>
-            <p className="text-sm text-gray-600">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Users by Interest</h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Aggregation Scenario 1: Group and analyze users according to shared interests.
             </p>
           </div>
 
           {/* Filter Bar */}
-          <form onSubmit={handleApplyFilter} className="flex items-center gap-2">
+          <form onSubmit={handleApplyFilter} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <input
               type="text"
               value={filterInput}
               onChange={(e) => setFilterInput(e.target.value)}
               placeholder="Filter by interest..."
-              className="px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              className="w-full sm:w-auto px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <button
-              type="submit"
-              className="px-3 py-1.5 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded cursor-pointer"
-            >
-              Apply
-            </button>
-            {appliedFilter && (
+            <div className="flex space-x-2">
               <button
-                type="button"
-                onClick={handleClearFilter}
-                className="px-3 py-1.5 text-sm font-medium border border-gray-300 rounded bg-white hover:bg-gray-50 text-gray-700 cursor-pointer"
+                type="submit"
+                className="btn btn-sm"
               >
-                Clear
+                Apply
               </button>
-            )}
+              {appliedFilter && (
+                <button
+                  type="button"
+                  onClick={handleClearFilter}
+                  className="btn btn-sm"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
           </form>
         </div>
 
         {appliedFilter && (
-          <div className="mb-4 text-xs text-gray-600 flex items-center gap-2">
+          <div className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2">
             <span>Filtered by interest:</span>
-            <span className="font-semibold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded">
+            <span className="font-semibold text-blue-700 dark:text-blue-300 bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 px-2 py-0.5 rounded">
               {appliedFilter}
             </span>
             <button
               type="button"
               onClick={handleClearFilter}
-              className="text-gray-400 hover:text-gray-600 cursor-pointer ml-1"
+              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 cursor-pointer ml-1"
             >
               ✕
             </button>
@@ -121,27 +123,27 @@ export default function AdminInterestsPage() {
 
         {/* Content Section */}
         {loading ? (
-          <div className="bg-white border border-gray-200 rounded-lg p-8 text-center text-sm text-gray-500 shadow-xs">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-8 text-center text-sm text-gray-500 dark:text-gray-400 shadow-xs">
             Loading interests...
           </div>
         ) : error ? (
-          <div className="bg-white border border-red-200 rounded-lg p-8 text-center shadow-xs">
-            <p className="text-sm text-red-600 mb-3">{error}</p>
+          <div className="bg-white dark:bg-gray-900 border border-red-200 dark:border-red-900 rounded-lg p-8 text-center shadow-xs">
+            <p className="text-sm text-red-600 dark:text-red-400 mb-3">{error}</p>
             <button
               type="button"
               onClick={fetchGroups}
-              className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs rounded font-medium cursor-pointer"
+              className="btn btn-sm"
             >
               Retry
             </button>
           </div>
         ) : groups.length === 0 ? (
-          <div className="bg-white border border-gray-200 rounded-lg p-8 text-center text-sm text-gray-500 shadow-xs">
+          <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-8 text-center text-sm text-gray-500 dark:text-gray-400 shadow-xs">
             No interests found.
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="flex justify-between items-center text-xs text-gray-500 px-1">
+            <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 px-1">
               <span>
                 Showing {groups.length} {groups.length === 1 ? 'group' : 'groups'}
               </span>
@@ -156,21 +158,21 @@ export default function AdminInterestsPage() {
               {groups.map((group, idx) => (
                 <div
                   key={`${group.interest}-${idx}`}
-                  className="bg-white border border-gray-200 rounded-lg p-5 shadow-xs"
+                  className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-5 shadow-xs"
                 >
-                  <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+                  <div className="flex items-center justify-between border-b border-gray-100 dark:border-gray-800 pb-3 mb-3">
                     <div className="flex items-center space-x-3">
-                      <span className="text-base font-bold text-gray-900 capitalize">
+                      <span className="text-base font-bold text-gray-900 dark:text-gray-100 capitalize">
                         {group.interest}
                       </span>
-                      <span className="text-xs font-medium px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800">
+                      <span className="text-xs font-medium px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300">
                         {group.count} {group.count === 1 ? 'member' : 'members'}
                       </span>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
                       Group Members
                     </h3>
                     {group.users && group.users.length > 0 ? (
@@ -178,20 +180,20 @@ export default function AdminInterestsPage() {
                         {group.users.map((member) => (
                           <div
                             key={member._id}
-                            className="p-3 rounded border border-gray-100 bg-gray-50/60 flex flex-col justify-between"
+                            className="p-3 rounded border border-gray-100 dark:border-gray-800 bg-gray-50/60 dark:bg-gray-800/60 flex flex-col justify-between"
                           >
                             <div>
-                              <div className="font-medium text-sm text-gray-900">
+                              <div className="font-medium text-sm text-gray-900 dark:text-gray-100">
                                 {member.name}
                               </div>
-                              <div className="text-xs text-gray-500 truncate">
+                              <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
                                 {member.email}
                               </div>
                             </div>
                             <div className="mt-2 text-right">
                               <Link
                                 href={`/users/${member._id}/posts`}
-                                className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+                                className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
                               >
                                 View Posts →
                               </Link>
@@ -200,7 +202,7 @@ export default function AdminInterestsPage() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-xs text-gray-400">No member details available.</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500">No member details available.</p>
                     )}
                   </div>
                 </div>
@@ -214,4 +216,3 @@ export default function AdminInterestsPage() {
     </AuthGuard>
   );
 }
-

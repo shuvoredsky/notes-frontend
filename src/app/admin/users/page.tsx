@@ -292,11 +292,11 @@ export default function AdminUsersPage() {
 
   return (
     <AuthGuard requireAdmin>
-      <div className="max-w-5xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-6">
+      <div className="max-w-5xl mx-auto py-4 sm:py-6 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
-            <p className="text-sm text-gray-600">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">User Management</h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Create, edit, and manage system users and roles.
             </p>
           </div>
@@ -304,12 +304,12 @@ export default function AdminUsersPage() {
 
         {/* Global Action Alerts */}
         {actionError && (
-          <div className="mb-6 p-4 rounded bg-red-50 border border-red-200 text-sm text-red-700 flex items-start justify-between">
+          <div className="p-4 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-sm text-red-700 dark:text-red-300 flex items-start justify-between">
             <span>{actionError}</span>
             <button
               type="button"
               onClick={() => setActionError(null)}
-              className="text-red-500 hover:text-red-700 font-bold ml-4 cursor-pointer"
+              className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-200 font-bold ml-4 cursor-pointer"
             >
               ✕
             </button>
@@ -317,12 +317,12 @@ export default function AdminUsersPage() {
         )}
 
         {actionSuccess && (
-          <div className="mb-6 p-4 rounded bg-green-50 border border-green-200 text-sm text-green-700 flex items-start justify-between">
+          <div className="p-4 rounded bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-900 text-sm text-green-700 dark:text-green-300 flex items-start justify-between">
             <span>{actionSuccess}</span>
             <button
               type="button"
               onClick={() => setActionSuccess(null)}
-              className="text-green-500 hover:text-green-700 font-bold ml-4 cursor-pointer"
+              className="text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-200 font-bold ml-4 cursor-pointer"
             >
               ✕
             </button>
@@ -330,12 +330,12 @@ export default function AdminUsersPage() {
         )}
 
         {/* Create User Form */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8 shadow-xs">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Add New User</h2>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-5 sm:p-6 shadow-xs">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Add New User</h2>
           <form onSubmit={handleCreateSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Full Name
                 </label>
                 <input
@@ -346,15 +346,15 @@ export default function AdminUsersPage() {
                   }
                   disabled={actionLoading}
                   placeholder="Jane Doe"
-                  className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {createErrors.name && (
-                  <p className="mt-1 text-xs text-red-600">{createErrors.name}</p>
+                  <p className="mt-1 text-xs text-red-600 dark:text-red-400">{createErrors.name}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Email Address
                 </label>
                 <input
@@ -365,15 +365,15 @@ export default function AdminUsersPage() {
                   }
                   disabled={actionLoading}
                   placeholder="jane@example.com"
-                  className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {createErrors.email && (
-                  <p className="mt-1 text-xs text-red-600">{createErrors.email}</p>
+                  <p className="mt-1 text-xs text-red-600 dark:text-red-400">{createErrors.email}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Password
                 </label>
                 <input
@@ -384,15 +384,15 @@ export default function AdminUsersPage() {
                   }
                   disabled={actionLoading}
                   placeholder="Minimum 6 characters"
-                  className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {createErrors.password && (
-                  <p className="mt-1 text-xs text-red-600">{createErrors.password}</p>
+                  <p className="mt-1 text-xs text-red-600 dark:text-red-400">{createErrors.password}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Role
                 </label>
                 <select
@@ -404,7 +404,7 @@ export default function AdminUsersPage() {
                     }))
                   }
                   disabled={actionLoading}
-                  className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
@@ -413,8 +413,8 @@ export default function AdminUsersPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Interests <span className="text-gray-400 font-normal">(optional, comma-separated)</span>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Interests <span className="text-gray-400 dark:text-gray-500 font-normal">(optional, comma-separated)</span>
               </label>
               <input
                 type="text"
@@ -424,7 +424,7 @@ export default function AdminUsersPage() {
                 }
                 disabled={actionLoading}
                 placeholder="tech, reading, sports"
-                className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -432,7 +432,7 @@ export default function AdminUsersPage() {
               <button
                 type="submit"
                 disabled={actionLoading}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium disabled:opacity-50 cursor-pointer"
+                className="btn"
               >
                 {actionLoading ? 'Creating User...' : 'Create User'}
               </button>
@@ -441,39 +441,39 @@ export default function AdminUsersPage() {
         </div>
 
         {/* Users List */}
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-xs">
-          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50 flex items-center justify-between">
-            <h2 className="text-base font-semibold text-gray-900">Registered Users</h2>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden shadow-xs">
+          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/50 flex items-center justify-between">
+            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">Registered Users</h2>
             {meta && (
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500 dark:text-gray-400">
                 {meta.total} total {meta.total === 1 ? 'user' : 'users'}
               </span>
             )}
           </div>
 
           {loading ? (
-            <div className="p-8 text-center text-sm text-gray-500">
+            <div className="p-8 text-center text-sm text-gray-500 dark:text-gray-400">
               Loading users...
             </div>
           ) : error ? (
             <div className="p-8 text-center">
-              <p className="text-sm text-red-600 mb-3">{error}</p>
+              <p className="text-sm text-red-600 dark:text-red-400 mb-3">{error}</p>
               <button
                 type="button"
                 onClick={fetchUsers}
-                className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs rounded font-medium cursor-pointer"
+                className="btn btn-sm"
               >
                 Retry
               </button>
             </div>
           ) : users.length === 0 ? (
-            <div className="p-8 text-center text-sm text-gray-500">
+            <div className="p-8 text-center text-sm text-gray-500 dark:text-gray-400">
               No users found.
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-gray-700 divide-y divide-gray-200">
-                <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+              <table className="w-full text-left text-sm text-gray-700 dark:text-gray-300 divide-y divide-gray-200 dark:divide-gray-800">
+                <thead className="bg-gray-50 dark:bg-gray-800/80 text-xs uppercase text-gray-500 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-6 py-3 font-semibold">User</th>
                     <th scope="col" className="px-6 py-3 font-semibold">Role</th>
@@ -482,22 +482,22 @@ export default function AdminUsersPage() {
                     <th scope="col" className="px-6 py-3 font-semibold text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-800 bg-white dark:bg-gray-900">
                   {users.map((u) => {
                     const isEditing = editingUserId === u._id;
                     const isSelf = currentUser?._id === u._id;
 
                     if (isEditing) {
                       return (
-                        <tr key={u._id} className="bg-blue-50/50">
+                        <tr key={u._id} className="bg-blue-50/50 dark:bg-blue-950/20">
                           <td className="px-6 py-4" colSpan={5}>
                             <div className="space-y-3">
-                              <div className="text-xs font-semibold text-blue-700 uppercase">
+                              <div className="text-xs font-semibold text-blue-700 dark:text-blue-400 uppercase">
                                 Editing User: {u.name} ({u.email})
                               </div>
                               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                                 <div>
-                                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Name
                                   </label>
                                   <input
@@ -510,17 +510,17 @@ export default function AdminUsersPage() {
                                       }))
                                     }
                                     disabled={actionLoading}
-                                    className="w-full px-2.5 py-1.5 border border-gray-300 rounded text-sm bg-white"
+                                    className="w-full px-2.5 py-1.5 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                                   />
                                   {editErrors.name && (
-                                    <p className="text-xs text-red-600 mt-0.5">
+                                    <p className="text-xs text-red-600 dark:text-red-400 mt-0.5">
                                       {editErrors.name}
                                     </p>
                                   )}
                                 </div>
 
                                 <div>
-                                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Email
                                   </label>
                                   <input
@@ -533,17 +533,17 @@ export default function AdminUsersPage() {
                                       }))
                                     }
                                     disabled={actionLoading}
-                                    className="w-full px-2.5 py-1.5 border border-gray-300 rounded text-sm bg-white"
+                                    className="w-full px-2.5 py-1.5 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                                   />
                                   {editErrors.email && (
-                                    <p className="text-xs text-red-600 mt-0.5">
+                                    <p className="text-xs text-red-600 dark:text-red-400 mt-0.5">
                                       {editErrors.email}
                                     </p>
                                   )}
                                 </div>
 
                                 <div>
-                                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Role
                                   </label>
                                   <select
@@ -555,7 +555,7 @@ export default function AdminUsersPage() {
                                       }))
                                     }
                                     disabled={actionLoading}
-                                    className="w-full px-2.5 py-1.5 border border-gray-300 rounded text-sm bg-white"
+                                    className="w-full px-2.5 py-1.5 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                                   >
                                     <option value="user">User</option>
                                     <option value="admin">Admin</option>
@@ -563,7 +563,7 @@ export default function AdminUsersPage() {
                                 </div>
 
                                 <div className="md:col-span-2">
-                                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Interests (comma-separated)
                                   </label>
                                   <input
@@ -576,12 +576,12 @@ export default function AdminUsersPage() {
                                       }))
                                     }
                                     disabled={actionLoading}
-                                    className="w-full px-2.5 py-1.5 border border-gray-300 rounded text-sm bg-white"
+                                    className="w-full px-2.5 py-1.5 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                                   />
                                 </div>
 
                                 <div>
-                                  <label className="block text-xs font-medium text-gray-700 mb-1">
+                                  <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     New Password (leave empty to keep)
                                   </label>
                                   <input
@@ -595,10 +595,10 @@ export default function AdminUsersPage() {
                                     }
                                     disabled={actionLoading}
                                     placeholder="Optional"
-                                    className="w-full px-2.5 py-1.5 border border-gray-300 rounded text-sm bg-white"
+                                    className="w-full px-2.5 py-1.5 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                                   />
                                   {editErrors.password && (
-                                    <p className="text-xs text-red-600 mt-0.5">
+                                    <p className="text-xs text-red-600 dark:text-red-400 mt-0.5">
                                       {editErrors.password}
                                     </p>
                                   )}
@@ -610,7 +610,7 @@ export default function AdminUsersPage() {
                                   type="button"
                                   onClick={cancelEditing}
                                   disabled={actionLoading}
-                                  className="px-3 py-1.5 text-xs font-medium border border-gray-300 rounded bg-white hover:bg-gray-50 text-gray-700 cursor-pointer disabled:opacity-50"
+                                  className="btn btn-sm"
                                 >
                                   Cancel
                                 </button>
@@ -618,7 +618,7 @@ export default function AdminUsersPage() {
                                   type="button"
                                   onClick={() => handleSaveEdit(u)}
                                   disabled={actionLoading}
-                                  className="px-3 py-1.5 text-xs font-medium bg-blue-600 hover:bg-blue-700 text-white rounded cursor-pointer disabled:opacity-50"
+                                  className="btn btn-sm"
                                 >
                                   {actionLoading ? 'Saving...' : 'Save Changes'}
                                 </button>
@@ -630,36 +630,36 @@ export default function AdminUsersPage() {
                     }
 
                     return (
-                      <tr key={u._id} className="hover:bg-gray-50">
+                      <tr key={u._id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                         <td className="px-6 py-4">
-                          <div className="font-medium text-gray-900">{u.name}</div>
-                          <div className="text-xs text-gray-500">{u.email}</div>
+                          <div className="font-medium text-gray-900 dark:text-gray-100">{u.name}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{u.email}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`inline-block px-2 py-0.5 text-xs font-medium rounded ${
                               u.role === 'admin'
-                                ? 'bg-purple-100 text-purple-700 border border-purple-200'
-                                : 'bg-gray-100 text-gray-700 border border-gray-200'
+                                ? 'bg-purple-100 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800'
+                                : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700'
                             }`}
                           >
                             {u.role}
                           </span>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-xs text-gray-600 max-w-xs truncate">
+                          <div className="text-xs text-gray-600 dark:text-gray-300 max-w-xs truncate">
                             {u.interests && u.interests.length > 0
                               ? u.interests.join(', ')
                               : '-'}
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-xs text-gray-500 dark:text-gray-400">
                           {new Date(u.createdAt).toLocaleDateString()}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right space-x-2">
                           <Link
                             href={`/users/${u._id}/posts`}
-                            className="inline-block px-2.5 py-1 text-xs font-medium border border-gray-300 rounded bg-white hover:bg-gray-50 text-gray-700"
+                            className="inline-block px-2.5 py-1 text-xs font-medium border border-gray-300 dark:border-gray-700 rounded bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200"
                           >
                             Posts
                           </Link>
@@ -667,7 +667,7 @@ export default function AdminUsersPage() {
                             type="button"
                             onClick={() => startEditing(u)}
                             disabled={actionLoading}
-                            className="px-2.5 py-1 text-xs font-medium border border-blue-300 rounded bg-blue-50 hover:bg-blue-100 text-blue-700 cursor-pointer disabled:opacity-50"
+                            className="btn btn-sm"
                           >
                             Edit
                           </button>
@@ -680,7 +680,7 @@ export default function AdminUsersPage() {
                                 ? 'You cannot delete your own account'
                                 : 'Delete user'
                             }
-                            className="px-2.5 py-1 text-xs font-medium border border-red-300 rounded bg-red-50 hover:bg-red-100 text-red-700 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                            className="btn btn-sm"
                           >
                             Delete
                           </button>
@@ -699,4 +699,3 @@ export default function AdminUsersPage() {
     </AuthGuard>
   );
 }
-

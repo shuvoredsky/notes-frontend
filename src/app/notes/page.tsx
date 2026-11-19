@@ -217,22 +217,22 @@ export default function NotesPage() {
 
   return (
     <AuthGuard>
-      <div className="py-6 space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">
+      <div className="py-4 sm:py-6 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
             {user?.role === 'admin' ? 'Notes Management' : 'My Notes'}
           </h1>
         </div>
 
         {error && (
-          <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm rounded">
+          <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-700 dark:text-red-300 text-sm rounded">
             {error}
           </div>
         )}
 
         {/* Create Note Section */}
-        <div className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">Create Note</h2>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-5 shadow-xs">
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">Create Note</h2>
           <form onSubmit={handleCreateNote} className="space-y-3">
             <div>
               <input
@@ -240,10 +240,10 @@ export default function NotesPage() {
                 placeholder="Note title"
                 value={createTitle}
                 onChange={(e) => setCreateTitle(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {createErrors.title && (
-                <p className="mt-1 text-xs text-red-600">{createErrors.title}</p>
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{createErrors.title}</p>
               )}
             </div>
 
@@ -253,20 +253,22 @@ export default function NotesPage() {
                 rows={3}
                 value={createContent}
                 onChange={(e) => setCreateContent(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {createErrors.content && (
-                <p className="mt-1 text-xs text-red-600">{createErrors.content}</p>
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{createErrors.content}</p>
               )}
             </div>
 
-            <button
-              type="submit"
-              disabled={isCreating}
-              className="py-1.5 px-4 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded transition disabled:opacity-50 cursor-pointer"
-            >
-              {isCreating ? 'Creating...' : 'Create Note'}
-            </button>
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                disabled={isCreating}
+                className="btn text-sm"
+              >
+                {isCreating ? 'Creating...' : 'Create Note'}
+              </button>
+            </div>
           </form>
         </div>
 
@@ -274,9 +276,9 @@ export default function NotesPage() {
         {user?.role === 'admin' && (
           <form
             onSubmit={handleApplyOwnerFilter}
-            className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg p-3 text-sm shadow-sm"
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-3 text-sm shadow-xs"
           >
-            <label className="font-medium text-gray-700 whitespace-nowrap">
+            <label className="font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap">
               Filter by owner id:
             </label>
             <input
@@ -284,32 +286,34 @@ export default function NotesPage() {
               placeholder="e.g. 64b1f... or leave empty"
               value={ownerInput}
               onChange={(e) => setOwnerInput(e.target.value)}
-              className="flex-1 px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="flex-1 w-full px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <button
-              type="submit"
-              className="px-3 py-1.5 bg-gray-800 hover:bg-gray-900 text-white rounded text-sm font-medium cursor-pointer"
-            >
-              Apply Filter
-            </button>
-            {ownerFilter && (
+            <div className="flex space-x-2">
               <button
-                type="button"
-                onClick={handleClearOwnerFilter}
-                className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded text-sm font-medium cursor-pointer"
+                type="submit"
+                className="btn btn-sm"
               >
-                Clear
+                Apply Filter
               </button>
-            )}
+              {ownerFilter && (
+                <button
+                  type="button"
+                  onClick={handleClearOwnerFilter}
+                  className="btn btn-sm"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
           </form>
         )}
 
         {/* Notes Listing */}
         <div className="space-y-4">
           {loading ? (
-            <div className="py-12 text-center text-gray-500 text-sm">Loading notes...</div>
+            <div className="py-12 text-center text-gray-500 dark:text-gray-400 text-sm">Loading notes...</div>
           ) : notes.length === 0 ? (
-            <div className="py-12 text-center text-gray-500 text-sm bg-white border border-gray-200 rounded-lg">
+            <div className="py-12 text-center text-gray-500 dark:text-gray-400 text-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg">
               No notes yet.
             </div>
           ) : (
@@ -320,7 +324,7 @@ export default function NotesPage() {
               return (
                 <div
                   key={note._id}
-                  className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm space-y-3"
+                  className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-5 shadow-xs space-y-3"
                 >
                   {isEditing ? (
                     <div className="space-y-3">
@@ -329,10 +333,10 @@ export default function NotesPage() {
                           type="text"
                           value={editTitle}
                           onChange={(e) => setEditTitle(e.target.value)}
-                          className="w-full px-3 py-1.5 border border-gray-300 rounded text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded text-sm font-semibold bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         {editErrors.title && (
-                          <p className="mt-1 text-xs text-red-600">{editErrors.title}</p>
+                          <p className="mt-1 text-xs text-red-600 dark:text-red-400">{editErrors.title}</p>
                         )}
                       </div>
 
@@ -341,10 +345,10 @@ export default function NotesPage() {
                           rows={3}
                           value={editContent}
                           onChange={(e) => setEditContent(e.target.value)}
-                          className="w-full px-3 py-1.5 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-1.5 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         {editErrors.content && (
-                          <p className="mt-1 text-xs text-red-600">{editErrors.content}</p>
+                          <p className="mt-1 text-xs text-red-600 dark:text-red-400">{editErrors.content}</p>
                         )}
                       </div>
 
@@ -353,7 +357,7 @@ export default function NotesPage() {
                           type="button"
                           onClick={() => handleSaveEdit(note._id)}
                           disabled={isSaving}
-                          className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white text-xs font-medium rounded disabled:opacity-50 cursor-pointer"
+                          className="btn btn-sm"
                         >
                           {isSaving ? 'Saving...' : 'Save'}
                         </button>
@@ -361,7 +365,7 @@ export default function NotesPage() {
                           type="button"
                           onClick={handleCancelEdit}
                           disabled={isSaving}
-                          className="px-3 py-1 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-medium rounded cursor-pointer"
+                          className="btn btn-sm"
                         >
                           Cancel
                         </button>
@@ -369,24 +373,24 @@ export default function NotesPage() {
                     </div>
                   ) : (
                     <>
-                      <div className="flex justify-between items-start">
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
                         <div>
-                          <h3 className="text-base font-semibold text-gray-900">{note.title}</h3>
+                          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">{note.title}</h3>
                           {user?.role === 'admin' && (
-                            <p className="text-xs text-blue-600 mt-0.5">
+                            <p className="text-xs text-blue-600 dark:text-blue-400 mt-0.5">
                               Owner: {formatOwner(note.owner)}
                             </p>
                           )}
-                          <p className="text-xs text-gray-400 mt-0.5">
+                          <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                             {new Date(note.createdAt).toLocaleString()}
                           </p>
                         </div>
 
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-2 self-start">
                           <button
                             type="button"
                             onClick={() => handleStartEdit(note)}
-                            className="px-2.5 py-1 text-xs font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded cursor-pointer"
+                            className="btn btn-sm"
                           >
                             Edit
                           </button>
@@ -394,14 +398,14 @@ export default function NotesPage() {
                             type="button"
                             onClick={() => handleDeleteNote(note._id)}
                             disabled={isDeleting}
-                            className="px-2.5 py-1 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded disabled:opacity-50 cursor-pointer"
+                            className="btn btn-sm"
                           >
                             {isDeleting ? 'Deleting...' : 'Delete'}
                           </button>
                         </div>
                       </div>
 
-                      <p className="text-sm text-gray-700 whitespace-pre-wrap">{note.content}</p>
+                      <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{note.content}</p>
                     </>
                   )}
                 </div>

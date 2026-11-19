@@ -145,17 +145,17 @@ export default function UserPostsPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto py-4 sm:py-6 space-y-6">
       {/* Header Info */}
       {userSummary ? (
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-6 shadow-xs">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-5 sm:p-6 shadow-xs">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{userSummary.name}</h1>
-              <p className="text-sm text-gray-500">{userSummary.email}</p>
+              <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{userSummary.name}</h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{userSummary.email}</p>
             </div>
             {isOwner && (
-              <span className="self-start sm:self-auto text-xs font-semibold px-2.5 py-1 bg-green-100 text-green-800 rounded-full">
+              <span className="self-start sm:self-auto text-xs font-semibold px-2.5 py-1 bg-green-100 dark:bg-green-950/60 text-green-800 dark:text-green-300 rounded-full border border-green-200 dark:border-green-800">
                 Your Public Profile
               </span>
             )}
@@ -165,12 +165,12 @@ export default function UserPostsPage() {
 
       {/* Action Error Banner */}
       {actionError && (
-        <div className="mb-6 p-4 rounded bg-red-50 border border-red-200 text-sm text-red-700 flex items-start justify-between">
+        <div className="p-4 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-sm text-red-700 dark:text-red-300 flex items-start justify-between">
           <span>{actionError}</span>
           <button
             type="button"
             onClick={() => setActionError(null)}
-            className="text-red-500 hover:text-red-700 font-bold ml-4 cursor-pointer"
+            className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-200 font-bold ml-4 cursor-pointer"
           >
             ✕
           </button>
@@ -179,11 +179,11 @@ export default function UserPostsPage() {
 
       {/* Create Post Form (Only shown if logged-in user is viewing their OWN posts page) */}
       {!authLoading && isOwner && (
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8 shadow-xs">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Create a New Post</h2>
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-5 sm:p-6 shadow-xs">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Create a New Post</h2>
           <form onSubmit={handleCreatePost} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Post Title
               </label>
               <input
@@ -192,15 +192,15 @@ export default function UserPostsPage() {
                 onChange={(e) => setCreateTitle(e.target.value)}
                 placeholder="What's on your mind?"
                 disabled={actionLoading}
-                className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {createErrors.title && (
-                <p className="mt-1 text-xs text-red-600">{createErrors.title}</p>
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{createErrors.title}</p>
               )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Content
               </label>
               <textarea
@@ -209,10 +209,10 @@ export default function UserPostsPage() {
                 rows={3}
                 placeholder="Share your thoughts with the public..."
                 disabled={actionLoading}
-                className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               {createErrors.content && (
-                <p className="mt-1 text-xs text-red-600">{createErrors.content}</p>
+                <p className="mt-1 text-xs text-red-600 dark:text-red-400">{createErrors.content}</p>
               )}
             </div>
 
@@ -220,7 +220,7 @@ export default function UserPostsPage() {
               <button
                 type="submit"
                 disabled={actionLoading}
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium disabled:opacity-50 cursor-pointer"
+                className="btn"
               >
                 {actionLoading ? 'Publishing...' : 'Publish Post'}
               </button>
@@ -231,27 +231,27 @@ export default function UserPostsPage() {
 
       {/* Posts Section */}
       {loading ? (
-        <div className="bg-white border border-gray-200 rounded-lg p-8 text-center text-sm text-gray-500 shadow-xs">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-8 text-center text-sm text-gray-500 dark:text-gray-400 shadow-xs">
           Loading posts...
         </div>
       ) : error ? (
-        <div className="bg-white border border-red-200 rounded-lg p-8 text-center shadow-xs">
-          <p className="text-sm text-red-600 mb-3">{error}</p>
+        <div className="bg-white dark:bg-gray-900 border border-red-200 dark:border-red-900 rounded-lg p-8 text-center shadow-xs">
+          <p className="text-sm text-red-600 dark:text-red-400 mb-3">{error}</p>
           <button
             type="button"
             onClick={fetchUserPosts}
-            className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs rounded font-medium cursor-pointer"
+            className="btn btn-sm"
           >
             Retry
           </button>
         </div>
       ) : posts.length === 0 ? (
-        <div className="bg-white border border-gray-200 rounded-lg p-8 text-center text-sm text-gray-500 shadow-xs">
+        <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-8 text-center text-sm text-gray-500 dark:text-gray-400 shadow-xs">
           No posts yet.
         </div>
       ) : (
         <div className="space-y-4">
-          <div className="flex justify-between items-center text-xs text-gray-500 px-1">
+          <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 px-1">
             <span>Posts by {userSummary?.name || 'User'}</span>
             {meta && (
               <span>
@@ -273,27 +273,27 @@ export default function UserPostsPage() {
               return (
                 <div
                   key={post._id}
-                  className="bg-white border border-gray-200 rounded-lg p-5 shadow-xs transition-shadow hover:shadow-sm"
+                  className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-lg p-5 shadow-xs transition-shadow hover:shadow-sm"
                 >
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <h3 className="text-base font-semibold text-gray-900">{post.title}</h3>
+                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-2">
+                    <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">{post.title}</h3>
                     {canDelete && (
                       <button
                         type="button"
                         onClick={() => handleDeletePost(post._id)}
                         disabled={actionLoading}
-                        className="text-xs px-2 py-1 text-red-600 hover:text-red-800 border border-red-200 rounded hover:bg-red-50 disabled:opacity-50 cursor-pointer whitespace-nowrap"
+                        className="btn btn-sm self-start"
                       >
                         Delete
                       </button>
                     )}
                   </div>
 
-                  <p className="text-sm text-gray-700 whitespace-pre-wrap mb-4">
+                  <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap mb-4">
                     {post.content}
                   </p>
 
-                  <div className="text-xs text-gray-400 border-t border-gray-100 pt-2">
+                  <div className="text-xs text-gray-400 dark:text-gray-500 border-t border-gray-100 dark:border-gray-800 pt-2">
                     Posted on {new Date(post.createdAt).toLocaleDateString()} at{' '}
                     {new Date(post.createdAt).toLocaleTimeString([], {
                       hour: '2-digit',
@@ -311,4 +311,3 @@ export default function UserPostsPage() {
     </div>
   );
 }
-
